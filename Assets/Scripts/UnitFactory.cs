@@ -8,6 +8,7 @@ public class UnitFactory : MonoBehaviour {
 
     static private GameObject playerPrefab;
     static private GameObject enemyPrefab;
+    static private GameObject oraclePrefab;
     static private GameObject exitPrefab;
 
     static private float speed;
@@ -20,6 +21,7 @@ public class UnitFactory : MonoBehaviour {
     {
         playerPrefab = GameManager.instance.playerPrefab;
         enemyPrefab = GameManager.instance.enemyPrefab;
+        oraclePrefab = GameManager.instance.oraclePrefab;
         exitPrefab = GameManager.instance.exitPrefab;
 
         speed = GameManager.instance.speed;
@@ -84,6 +86,21 @@ public class UnitFactory : MonoBehaviour {
         Enemy enemy = gameObj.GetComponent<Enemy>();
         enemyList.Remove(enemy);
 
+        gameObjDestroy(gameObj);
+    }
+
+    // Oracle
+    static public Oracle createOracle(Cart spawnPos)
+    {
+        GameObject instance = gameObjCreate(oraclePrefab, spawnPos);
+
+        Oracle oracle = instance.GetComponent<Oracle>();
+        oracle.initialize(spawnPos, 100, 0);
+
+        return oracle;
+    }
+    static public void destroyOracle(GameObject gameObj)
+    {
         gameObjDestroy(gameObj);
     }
 

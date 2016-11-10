@@ -12,9 +12,10 @@ public class GameManager : MonoBehaviour {
 
     public GameObject playerPrefab;
     public GameObject enemyPrefab;
+    public GameObject oraclePrefab;
     public GameObject exitPrefab;
 
-    public Player player;
+    public Player player = null;
     public List<Enemy> enemyList = new List<Enemy>();
 
 	[System.NonSerialized]
@@ -75,8 +76,12 @@ public class GameManager : MonoBehaviour {
         player = UnitFactory.createPlayer();
 
         // Camera
+		instance.cameraFree = false;
+
         Camera camera = Camera.main;
         camera.transform.position = player.gameObject.transform.position - new Vector3(0, 0, 30);
+
+		instance.cameraFree = true;
 
         // enemy
         for (int i = 0; i < mapManager.getEnemyCount(); i ++)

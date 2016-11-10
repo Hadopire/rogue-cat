@@ -19,6 +19,7 @@ public class MapManager : MonoBehaviour
 	public TileMap[] tilemaps;
 	public GameObject[] walls;
     public GameObject spawn;
+	public GameObject enemySpawn;
 	[Range(0f, 0.5f)]
 	public float perlinOffset = 0.38f;
 	[Range(0, 1)]
@@ -208,18 +209,19 @@ public class MapManager : MonoBehaviour
     enum Border { Undefined, Left, Right };
     public Cart spawnPlayer()
     {
-        Cart spawnPos = new Cart();
+		// spawn player
+		int yy;
+		int trigger;
+		int x, y;
 
         Border border = UnityEngine.Random.Range(0f, 1f) < 0.5 ? Border.Left : Border.Right;
-        int yy = 1;
-        int trigger = 0;
+
+        yy = 0;
+        trigger = 0;
         while (true)
         {
-            spawnPos.x = (int)UnityEngine.Random.Range(0f, (float)map.Length - 1);
-            spawnPos.y = border == Border.Left ? 0 + yy : map[spawnPos.x].Length - yy;
-
-            int x = spawnPos.x;
-            int y = spawnPos.y;
+            x = (int)UnityEngine.Random.Range(0f, (float)map.Length - 1);
+            y = border == Border.Left ? yy : map[x].Length - yy - 1;
 
             if (map[x][y].instance.layer == LayerMask.NameToLayer("Floor"))
                 break;
@@ -231,19 +233,38 @@ public class MapManager : MonoBehaviour
                 trigger = 0;
             }
         }
+		Cart spawnPos = new Cart(x, y);
+
+		// spawn enemy entries
+        yy = 0;
+        trigger = 0;
+        while (true)
+        {
+            x = (int)UnityEngine.Random.Range(0f, (float)map.Length - 1);
+            y = border == Border.Left ? yy : map[x].Length - yy - 1;
+
+            if (map[x][y].instance.layer == LayerMask.NameToLayer("Floor") &&
+				x != spawnPos.x)
+                break;
+
+            trigger++;
+            if (trigger > 20)
+            {
+                yy++;
+                trigger = 0;
+            }
+        }
+		Destroy(map[x][y].instance);
+		map[x][y].instance = Instantiate(enemySpawn, map[x][y].instance.transform.position, Quaternion.identity) as GameObject;
 
         // spawn exit
         border = border == Border.Left ? Border.Right : Border.Left;
         trigger = 0;
-        yy = 1;
-        Cart exitPos = new Cart();
+        yy = 0;
         while (true)
         {
-            exitPos.x = (int)Math.Round(UnityEngine.Random.Range(0f, (float)map.Length - 1));
-            exitPos.y = border == Border.Left ? 0 + yy : map[exitPos.x].Length - yy;
-
-            int x = exitPos.x;
-            int y = exitPos.y;
+            x = (int)Math.Round(UnityEngine.Random.Range(0f, (float)map.Length - 1));
+            y = border == Border.Left ? yy : map[x].Length - yy - 1;
 
             if (map[x][y].instance.layer == LayerMask.NameToLayer("Floor"))
                 break;
@@ -255,23 +276,19 @@ public class MapManager : MonoBehaviour
                 trigger = 0;
             }
         }
-        map[exitPos.x][exitPos.y].unit = UnitFactory.createExit(new Cart(exitPos.x, exitPos.y));
+        map[x][y].unit = UnitFactory.createExit(new Cart(x, y));
 
         return spawnPos;
     }
 
     public Cart spawnEnemy()
     {
-        Cart spawnPos = new Cart();
-
+		int x, y;
         int trigger = 0;
         while (true)
         {
-            spawnPos.x = (int)UnityEngine.Random.Range(0f, (float)map.Length - 1);
-            spawnPos.y = (int)UnityEngine.Random.Range(0f, (float)map[spawnPos.x].Length - 1);
-
-            int x = (int)spawnPos.x;
-            int y = (int)spawnPos.y;
+            x = (int)UnityEngine.Random.Range(0f, (float)map.Length - 1);
+            y = (int)UnityEngine.Random.Range(0f, (float)map[x].Length - 1);
 
             if (map[x][y].instance.layer == LayerMask.NameToLayer("Floor") && map[x][y].unit == null)
                 break;
@@ -284,7 +301,7 @@ public class MapManager : MonoBehaviour
             }
         }
 
-        return spawnPos;
+        return new Cart(x, y);
     }
 
 	public void spawnItems()
@@ -335,19 +352,19 @@ public class MapManager : MonoBehaviour
 
 		// debug path finding
 
-		if (Input.GetMouseButtonDown(0))
-		{
-            Player player = GameManager.instance.player;
-			path = findPath(player.position, cartMouse);
-			if (path.Count > 0)
-			{
-				for (int i = 0; i < tileBackup.Count; ++i)
-					Destroy(tileBackup[i]);
-				tileBackup = new List<GameObject>();
-			}
-			for (int i = 0; i < path.Count; ++i)
-				tileBackup.Add(Instantiate(closest, path[i].toIsometric(), Quaternion.identity) as GameObject);
-		}
+		//if (Input.GetMouseButtonDown(0))
+		//{
+        //    Player player = GameManager.instance.player;
+		//	path = findPath(player.position, cartMouse);
+		//	if (path.Count > 0)
+		//	{
+		//		for (int i = 0; i < tileBackup.Count; ++i)
+		//			Destroy(tileBackup[i]);
+		//		tileBackup = new List<GameObject>();
+		//	}
+		//	for (int i = 0; i < path.Count; ++i)
+		//		tileBackup.Add(Instantiate(closest, path[i].toIsometric(), Quaternion.identity) as GameObject);
+		//}
 	}
 
 	private bool[,] visited;
@@ -552,18 +569,6 @@ public class MapManager : MonoBehaviour
 			path.Reverse();
 		}
 		return path;
-	}
-
-	// Find the shortest path between two isometric coordinates using A* algorithm.
-	// return an empty list if no path exists.
-	public List<Vector3> findIsoPath(Vector3 isoStart, Vector3 isoEnd)
-	{
-		List<Cart> cartPath = findPath(Utils.toCartesian(isoStart), Utils.toCartesian(isoEnd));
-        List<Vector3> isoPath = new List<Vector3>();
-
-        for (int i = 0; i < cartPath.Count; ++i)
-            isoPath.Add(cartPath[i].toIsometric());
-		return isoPath;
 	}
 
 	private bool search(Node current)

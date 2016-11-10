@@ -11,6 +11,14 @@ public class Player : MovingUnit {
 
     private Vector3 touchPosition;
     private bool isTouch;
+	public void mallowSeduction()
+	{
+		GameManager.instance.enemySkipMove();
+
+		animator.Play("mallowSeduction");
+		Debug.Log("Stop Enemies");
+	}
+
 	override protected void Update()
     {
         Camera camera = Camera.main;
@@ -31,13 +39,8 @@ public class Player : MovingUnit {
             }
             isTouch = false;
         }
-        if (Input.GetMouseButtonDown(1))
-        {
-            GameManager.instance.enemySkipMove();
-            animator.Play("mallowSeduction");
-            Debug.Log("Stop Enemies");
-        }
-        base.Update();
+
+		base.Update();
 	}
 
 	private IEnumerator loot(GameObject item)

@@ -6,9 +6,8 @@ public abstract class MovingUnit : Unit {
 
     private int frameMaxPerMove = 12;
 
-    protected Animator animator;
     protected LayerMask blockingLayer;			    //Layer on which collision will be checked.
-    
+
     protected CircleCollider2D circleCollider; 		//The CircleCollider2D component attached to this object.
     protected Rigidbody2D rb2D;				        //The Rigidbody2D component attached to this object.
 
@@ -23,7 +22,6 @@ public abstract class MovingUnit : Unit {
     {
         base.unitInitialize(startPos, health, damage);
 
-        animator = GetComponent<Animator>();
         blockingLayer = LayerMask.NameToLayer("BlockingLayer");
         circleCollider = GetComponent<CircleCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
