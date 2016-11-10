@@ -2,9 +2,8 @@
 using System.Collections;
 using System;
 
-public class Utils
+public static class Utils
 {
-
     public static Vector3 tileSizeInUnits = new Vector3(1.0f, 0.75f, 0.5f);
     public static float minFloat = 0.05f;
 
@@ -42,6 +41,13 @@ public class Utils
         vec.x = Mathf.Round(vec.x);
         vec.y = Mathf.Round(vec.y);
         return vec;
+    }
+
+    public static T Clamp<T>(this T val, T min, T max) where T : IComparable<T>
+    {
+        if (val.CompareTo(min) < 0) return min;
+        else if (val.CompareTo(max) > 0) return max;
+        else return val;
     }
 }
 

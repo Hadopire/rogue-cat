@@ -9,16 +9,27 @@ public class Player : MovingUnit {
         base.movingUnitInitialize(startPos, health, damage, speed);
     }
 
+    private Vector3 touchPosition;
+    private bool isTouch;
 	override protected void Update()
     {
         Camera camera = Camera.main;
 
         GameManager.instance.mapManager.litMap(position);
-	    if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
-            Cart dest = Utils.toCartesian(camera.ScreenToWorldPoint(Input.mousePosition));
-            computePath(dest);
-            GameManager.instance.turnLeft = path.Count;
+            touchPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z);
+            isTouch = true;
+        }
+        else if (!Input.GetMouseButton(0) && isTouch)
+        {
+            if (Input.mousePosition == touchPosition)
+            {
+                Cart dest = Utils.toCartesian(camera.ScreenToWorldPoint(Input.mousePosition));
+                computePath(dest);
+                GameManager.instance.turnLeft = path.Count;
+            }
+            isTouch = false;
         }
         if (Input.GetMouseButtonDown(1))
         {
@@ -26,8 +37,7 @@ public class Player : MovingUnit {
             animator.Play("mallowSeduction");
             Debug.Log("Stop Enemies");
         }
-
-            base.Update();
+        base.Update();
 	}
 
 	private IEnumerator loot(GameObject item)

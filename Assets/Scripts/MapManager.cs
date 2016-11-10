@@ -55,13 +55,16 @@ public class MapManager : MonoBehaviour
             {
                 for (int j = 0; j < rowCount; ++j)
                 {
-                    Cart cartPos = map[i][j].cartPos;
+                    Cart cartPos = new Cart(i, j);
+                    //Cart cartPos = map[i][j].cartPos;
                     SpriteRenderer cubeRenderer = map[cartPos.x][cartPos.y].instance.GetComponent<SpriteRenderer>();
                     float distance = (cartPos - position).magnitude;
 
                     // fogWar
                     if (distance <= viewDistance + 2)
                     {
+                        if (cubeRenderer.material.color == Color.black)
+                            cubeRenderer.material.color = Color.black;
                         if (distance <= viewDistance)
                         {
                             if (map[i][j].unit != null)
@@ -404,6 +407,7 @@ public class MapManager : MonoBehaviour
 		{
 			for (int j = i + 1; j < islands.Count; ++j)
 			{
+                // find closest tile between two islands
 				float min = float.MaxValue;
 				int firstIndex = 0;
 				int secondIndex = 0;
@@ -420,6 +424,7 @@ public class MapManager : MonoBehaviour
 						}
 					}
 				}
+                //
 				Cart start = islands[i][firstIndex].cartPos;
 				Cart end = islands[j][secondIndex].cartPos;
 
@@ -433,8 +438,8 @@ public class MapManager : MonoBehaviour
 				int ymoves = 1;
 				while (start.x != end.x || start.y != end.y)
 				{
-					int xdir = (int)Mathf.Clamp(end.x - start.x, -1f, 1f);
-					int ydir = (int)Mathf.Clamp(end.y - start.y, -1f, 1f);
+					int xdir = Utils.Clamp<int>(end.x - start.x, -1, 1);
+					int ydir = Utils.Clamp<int>(end.y - start.y, -1, 1);
 					if (ydir != 0 && (xdir == 0 || ymoves / xmoves <= yratio))
 					{
 						start.y += ydir;
@@ -449,6 +454,7 @@ public class MapManager : MonoBehaviour
 					{
 						Destroy(map[start.x][start.y].instance);
 						map[start.x][start.y].instance = Instantiate(floorTiles[1], start.toIsometric(), Quaternion.identity) as GameObject;
+                        map[start.x][start.y].cartPos = new Cart(start.x, start.y);
 					}
 				}
 			}
