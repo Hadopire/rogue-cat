@@ -90,6 +90,68 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &448438747
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 448438750}
+  - 114: {fileID: 448438749}
+  - 114: {fileID: 448438748}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &448438748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 448438747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1077351063, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &448438749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 448438747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -619905303, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 5
+--- !u!4 &448438750
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 448438747}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
 --- !u!1 &1132383533
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,6 +255,34 @@ MonoBehaviour:
   pitchSpeed: 0.1
   minZoom: 1
   maxZoom: 5
+--- !u!1 &1537325398 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000011781066080, guid: 021c0b0f9b9dbde42986885d81a9e383,
+    type: 2}
+  m_PrefabInternal: {fileID: 1902062839}
+--- !u!114 &1537325399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1537325398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc079243d4e3a4666aeae7d4048af820, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UICanvasPrefab: {fileID: 1558521948486072, guid: 32ed9c415cae341c59ed2bbd957e0773,
+    type: 2}
+  actionButton1Prefab: {fileID: 1418488308721924, guid: 84728b54b3d9b4f2f850dfd044c8fc04,
+    type: 2}
+  actionButton1TextPrefab: {fileID: 1652713657732208, guid: ea79f51ad83804dd3854e4846aa42a12,
+    type: 2}
+  bubblePrefab: {fileID: 1937720099188184, guid: fe17897579bd149dc9b16b7ae9c0a4f2,
+    type: 2}
+  bubbleTextPrefab: {fileID: 1488953892789474, guid: 831814ead2ca5401e83c638f8eab4e99,
+    type: 2}
+  showButtons: 0
+  showBubble: 0
 --- !u!1001 &1902062839
 Prefab:
   m_ObjectHideFlags: 0

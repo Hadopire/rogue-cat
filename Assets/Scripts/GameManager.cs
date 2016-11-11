@@ -9,25 +9,27 @@ public class GameManager : MonoBehaviour {
 	public MapManager mapManager;
 	public uint level = 1;
 	public bool cameraFree = true;
+    private bool reset;
 
     public GameObject playerPrefab;
     public GameObject enemyPrefab;
     public GameObject oraclePrefab;
     public GameObject exitPrefab;
 
-    public Player player = null;
+    public float speed = 5.0f;
+	[System.NonSerialized]
+    public Player player;
+	[System.NonSerialized]
     public List<Enemy> enemyList = new List<Enemy>();
+	[System.NonSerialized]
+    public int turnLeft;
+    private int movingUnitDoneCount;
 
 	[System.NonSerialized]
 	public ItemManager itemManager;
 
-    private int movingUnitDoneCount;
-
-    public int turnLeft;
-
-    private bool reset;
-    public float speed = 5f;
-
+	[System.NonSerialized]
+    public UserInterface userInterface;
 
 	private void Awake()
 	{
@@ -93,6 +95,10 @@ public class GameManager : MonoBehaviour {
 
 		// spawn items
 		mapManager.spawnItems();
+
+        // UserInterface
+        userInterface = GetComponent<UserInterface>();
+        userInterface.init();
 
         movingUnitDoneCount = enemyList.Count + 1; // + 1 for player
         turnLeft = 0;

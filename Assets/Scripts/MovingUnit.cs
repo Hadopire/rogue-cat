@@ -55,7 +55,6 @@ public abstract class MovingUnit : Unit {
         Vector3 isoDest = end.toIsometric();
         renderer.flipX = isoDest.x > transform.position.x ? false : true;
 
-        //int frameCount = 0;
         float remainingDistance = (isoDest - transform.position).sqrMagnitude;
         while (remainingDistance > Utils.minFloat)
         {
@@ -63,42 +62,15 @@ public abstract class MovingUnit : Unit {
             rb2D.MovePosition (transform.position);
             remainingDistance = (isoDest - transform.position).sqrMagnitude;
             yield return new WaitForEndOfFrame();
-            //frameCount++;
-            //if (frameCount > frameMaxPerMove)
-            //    break;
         }
         position = end;
- 
+
         GameManager.instance.movingUnitIsDone();
 
         nextPos = null;
         moving = false;
         this.moveDone();
     }
-
-    /*void alternateMove()
-    {
-        Vector3 end = new Vector3();
-        Vector3[] alternateMove =
-        {
-            new Vector3(),
-            new Vector3(),
-            new Vector3()
-        };
-        if (position.x == end.x)
-        {
-            alternateMove[0] = new Vector3(end.x, end.y - 1f, end.z);
-            alternateMove[1] = new Vector3(end.x, end.y + 1f, end.z);
-            alternateMove[2] = position.toIsometric();
-        }
-        else
-        {
-            alternateMove[0] = new Vector3(end.x - 1f, end.y, end.z);
-            alternateMove[1] = new Vector3(end.x + 1f, end.y, end.z);
-            alternateMove[2] = position.toIsometric();
-        }
-        int alternateMoveIndex = 0;
-    }*/
 
     protected bool move(out GameObject unit, out GameObject item)
     {
