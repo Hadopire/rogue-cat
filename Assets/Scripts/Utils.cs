@@ -14,13 +14,20 @@ public static class Utils
         return new Vector3(isoX, isoY, isoY);
     }
 
+    public static Vector3 toIsometric(Cart localPosition)
+    {
+        float isoX = (localPosition.x - localPosition.y) * tileSizeInUnits.x / 2f;
+        float isoY = (localPosition.x + localPosition.y) * tileSizeInUnits.y / 2f;
+        return new Vector3(isoX, isoY, isoY);
+    }
+
     public static Vector3 toCartesianVector3(Vector3 isoPosition)
     {
         isoPosition.x = (float)Math.Round(isoPosition.x, 2);
         isoPosition.y = (float)Math.Round(isoPosition.y, 2);
-        float cartx = (int)(isoPosition.x * (2f / tileSizeInUnits.x) + isoPosition.y * (2f / tileSizeInUnits.y));
+        float cartx = (isoPosition.x * (2f / tileSizeInUnits.x) + isoPosition.y * (2f / tileSizeInUnits.y));
         cartx = cartx < minFloat && cartx > -1 ? 0f : cartx / 2f;
-        float carty = (int)(isoPosition.y * (2f / tileSizeInUnits.y) - cartx);
+        float carty = (isoPosition.y * (2f / tileSizeInUnits.y) - cartx);
         carty = carty < minFloat && carty > -1 ? 0f : carty;
         return new Vector3(cartx, carty);
     }

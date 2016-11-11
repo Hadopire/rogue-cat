@@ -663,3 +663,108 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2136890555}
+--- !u!1001 &1448774103
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 114000013781203592, guid: 021c0b0f9b9dbde42986885d81a9e383,
+        type: 2}
+      propertyPath: walls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013781203592, guid: 021c0b0f9b9dbde42986885d81a9e383,
+        type: 2}
+      propertyPath: buildings.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000011974352434, guid: 021c0b0f9b9dbde42986885d81a9e383, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -1.1057252
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000011974352434, guid: 021c0b0f9b9dbde42986885d81a9e383, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -1.9500604
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000011974352434, guid: 021c0b0f9b9dbde42986885d81a9e383, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000011974352434, guid: 021c0b0f9b9dbde42986885d81a9e383, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000011974352434, guid: 021c0b0f9b9dbde42986885d81a9e383, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000011974352434, guid: 021c0b0f9b9dbde42986885d81a9e383, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000011974352434, guid: 021c0b0f9b9dbde42986885d81a9e383, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000011974352434, guid: 021c0b0f9b9dbde42986885d81a9e383, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013781203592, guid: 021c0b0f9b9dbde42986885d81a9e383,
+        type: 2}
+      propertyPath: placeHolder
+      value: 
+      objectReference: {fileID: 1000012712131846, guid: 10d76f08c78877749b0568cffd28028b,
+        type: 2}
+    - target: {fileID: 114000013781203592, guid: 021c0b0f9b9dbde42986885d81a9e383,
+        type: 2}
+      propertyPath: walls.Array.data[0]
+      value: 
+      objectReference: {fileID: 1000013618422480, guid: 3e3ab0d3d253f644189c9db141e5dbbf,
+        type: 2}
+    - target: {fileID: 114000013781203592, guid: 021c0b0f9b9dbde42986885d81a9e383,
+        type: 2}
+      propertyPath: walls.Array.data[1]
+      value: 
+      objectReference: {fileID: 1000011538364186, guid: 76308babba79f184fbb8aa07da37024e,
+        type: 2}
+    - target: {fileID: 114000013781203592, guid: 021c0b0f9b9dbde42986885d81a9e383,
+        type: 2}
+      propertyPath: walls.Array.data[2]
+      value: 
+      objectReference: {fileID: 1000010937983892, guid: 5890a1ebcc1c74f41bec201fbaecc14c,
+        type: 2}
+    - target: {fileID: 114000013781203592, guid: 021c0b0f9b9dbde42986885d81a9e383,
+        type: 2}
+      propertyPath: buildings.Array.data[0]
+      value: 
+      objectReference: {fileID: 1000013618422480, guid: 3e3ab0d3d253f644189c9db141e5dbbf,
+        type: 2}
+    - target: {fileID: 114000013781203592, guid: 021c0b0f9b9dbde42986885d81a9e383,
+        type: 2}
+      propertyPath: buildings.Array.data[1]
+      value: 
+      objectReference: {fileID: 1000011538364186, guid: 76308babba79f184fbb8aa07da37024e,
+        type: 2}
+    - target: {fileID: 114000013781203592, guid: 021c0b0f9b9dbde42986885d81a9e383,
+        type: 2}
+      propertyPath: buildings.Array.data[2]
+      value: 
+      objectReference: {fileID: 1000011471135164, guid: c7c98532fada4d544a1461dd87728512,
+        type: 2}
+    - target: {fileID: 114000013781203592, guid: 021c0b0f9b9dbde42986885d81a9e383,
+        type: 2}
+      propertyPath: buildings.Array.data[3]
+      value: 
+      objectReference: {fileID: 1000013961880132, guid: 1654559da24a788408820790be5c2f73,
+        type: 2}
+    - target: {fileID: 114000013781203592, guid: 021c0b0f9b9dbde42986885d81a9e383,
+        type: 2}
+      propertyPath: fogOfWar
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 021c0b0f9b9dbde42986885d81a9e383, type: 2}
+  m_IsPrefabParent: 0

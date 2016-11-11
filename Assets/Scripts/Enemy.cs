@@ -20,6 +20,11 @@ public class Enemy : MovingUnit {
         return position.distanceTo(target.position);
     }
 
+    protected override void moveDone()
+    {
+        return;
+    }
+
     override public bool attemptMove()
     {
         if (distanceToTarget() < 5f)

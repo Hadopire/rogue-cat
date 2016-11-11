@@ -42,6 +42,11 @@ public abstract class MovingUnit : Unit {
         return path.Count != 0;
     }
 
+    protected virtual void moveDone()
+    {
+        return;
+    }
+
     protected IEnumerator smoothMovement(Cart end)
     {
         moving = true;
@@ -68,6 +73,7 @@ public abstract class MovingUnit : Unit {
 
         nextPos = null;
         moving = false;
+        this.moveDone();
     }
 
     /*void alternateMove()

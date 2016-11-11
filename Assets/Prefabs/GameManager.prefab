@@ -1,0 +1,128 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1000011781066080}
+  m_IsPrefabParent: 1
+--- !u!1 &1000011781066080
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000011974352434}
+  - 114: {fileID: 114000012822801930}
+  - 114: {fileID: 114000013781203592}
+  - 114: {fileID: 114000013227957344}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4000011974352434
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011781066080}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.1057252, y: -1.9500604, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &114000012822801930
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011781066080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b37404aedd3065448e6afbd6151f78d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level: 1
+  cameraFree: 1
+  playerPrefab: {fileID: 1000012752715242, guid: 40e6ebec37f0f8c4891a28d5075e187c,
+    type: 2}
+  enemyPrefab: {fileID: 1000013632809182, guid: 1dd5118d944c1224d984e372870a6d16,
+    type: 2}
+  exitPrefab: {fileID: 1000011911414560, guid: 9d65320e898a30e40baa775684f0fac5, type: 2}
+  player: {fileID: 0}
+  enemyList: []
+  turnLeft: 0
+  speed: 5
+--- !u!114 &114000013227957344
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011781066080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e66392247824b584eb9f0c37caf38bb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemList: {fileID: 11400000, guid: f901d1718fdde30439af5226cd3ae745, type: 2}
+--- !u!114 &114000013781203592
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011781066080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f01e8288ca1312246b572be341fba7dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  columnCount: 10
+  rowCount: 10
+  enemyCount: 0
+  floorTiles:
+  - {fileID: 1000014173061584, guid: e5cea5aee6c1ffe4eb73b67db16e59cd, type: 2}
+  - {fileID: 1000014173061584, guid: e5cea5aee6c1ffe4eb73b67db16e59cd, type: 2}
+  tilemaps:
+  - BaseTile: {fileID: 1000014173061584, guid: e5cea5aee6c1ffe4eb73b67db16e59cd, type: 2}
+    _baseTileChance: 86
+    secondaryTiles:
+    - tile: {fileID: 1000011744027468, guid: 10d0a5b2c5be7264aa37bf27f8a1f75e, type: 2}
+      _chance: 5
+    - tile: {fileID: 1000011651963206, guid: 89e56a6fa6e6f2440b558d99a82e4f55, type: 2}
+      _chance: 5
+    - tile: {fileID: 1000011352417540, guid: bd25864501b80bb4cbf5abb56922633f, type: 2}
+      _chance: 2
+    - tile: {fileID: 1000011530359512, guid: cef2c095257e44647a97e66a7c84ace8, type: 2}
+      _chance: 2
+  - BaseTile: {fileID: 1000011853018518, guid: 2dc21903ae0d4a540a5c19cf71a82a24, type: 2}
+    _baseTileChance: 91
+    secondaryTiles:
+    - tile: {fileID: 1000010497927118, guid: 36c8eaf23c797f14191710847e4ae06d, type: 2}
+      _chance: 3
+    - tile: {fileID: 1000011498717894, guid: 15ee8827865b2bf4dab77d0fcbe6fbe3, type: 2}
+      _chance: 2
+    - tile: {fileID: 1000012111815540, guid: 5cd652ebbd3e92943b4b909d56d4402c, type: 2}
+      _chance: 2
+    - tile: {fileID: 1000011300618314, guid: 1ada32d7069ce6f4abe3a636ab42f170, type: 2}
+      _chance: 2
+  walls:
+  - {fileID: 1000014023375990, guid: 7d06cf76586c10946930508120040afb, type: 2}
+  - {fileID: 1000010035194216, guid: 7e60709c61872b04abf14d86c58298b4, type: 2}
+  - {fileID: 1000010937983892, guid: 5890a1ebcc1c74f41bec201fbaecc14c, type: 2}
+  spawn: {fileID: 1000010497927118, guid: 36c8eaf23c797f14191710847e4ae06d, type: 2}
+  perlinOffset: 0.42
+  perlinRange: 0.1
+  viewDistance: 5
+  fogOfWar: 0
+  closest: {fileID: 1000011024540752, guid: cb32ca75870d10d479d8743e44146930, type: 2}

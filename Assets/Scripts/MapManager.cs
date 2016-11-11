@@ -17,7 +17,8 @@ public class MapManager : MonoBehaviour
 
 	public GameObject[] floorTiles;
 	public TileMap[] tilemaps;
-	public GameObject[] walls;
+	public GameObject[] buildings;
+    public GameObject placeHolder;
     public GameObject spawn;
 	public GameObject enemySpawn;
 	[Range(0f, 0.5f)]
@@ -52,12 +53,36 @@ public class MapManager : MonoBehaviour
 
         if (!map[x][y].litVisited)
         {
+            GameObject[] buildings = GameObject.FindGameObjectsWithTag("Building");
+            foreach (GameObject building in buildings)
+            {
+                foreach (Transform child in building.transform)
+                {
+                    SpriteRenderer cubeRenderer = child.gameObject.GetComponent<SpriteRenderer>();
+                    float distance = (Utils.toCartesian(child.position) - position).magnitude;
+
+                    // fogWar
+                    if (distance <= viewDistance + 2)
+                    {
+                        if (cubeRenderer.material.color == Color.black)
+                            cubeRenderer.material.color = Color.black;
+                        if (distance <= viewDistance)
+                        {
+                            cubeRenderer.material.color = Color.white;
+                        }
+                        else
+                        {
+                            cubeRenderer.material.color = Color.gray;
+                        }
+                    }
+                }
+            }
+
             for (int i = 0; i < columnCount; ++i)
             {
                 for (int j = 0; j < rowCount; ++j)
                 {
                     Cart cartPos = new Cart(i, j);
-                    //Cart cartPos = map[i][j].cartPos;
                     SpriteRenderer cubeRenderer = map[cartPos.x][cartPos.y].instance.GetComponent<SpriteRenderer>();
                     float distance = (cartPos - position).magnitude;
 
@@ -115,8 +140,19 @@ public class MapManager : MonoBehaviour
 					Destroy(map[x][y].instance);
 		}
 
-		// allocate map array
-		map = new Cube[columnCount][];
+        // destroy buildings
+        GameObject[] buildings = GameObject.FindGameObjectsWithTag("Building");
+        foreach(GameObject building in buildings)
+        {
+            foreach(Transform child in building.transform)
+            {
+                Destroy(child.gameObject);
+            }
+            Destroy(building);
+        }
+
+        // allocate map array
+        map = new Cube[columnCount][];
 		for (int i = 0; i < columnCount; ++i)
 			map[i] = new Cube[rowCount];
 
@@ -146,7 +182,7 @@ public class MapManager : MonoBehaviour
 				}
 				else
 				{
-					instance = Instantiate(walls[0], new Cart(x, y).toIsometric(), Quaternion.identity) as GameObject;
+					instance = Instantiate(placeHolder, new Cart(x, y).toIsometric(), Quaternion.identity) as GameObject;
 				}
                 map[x][y] = new Cube(instance, new Cart(x, y));
 			}
@@ -160,43 +196,12 @@ public class MapManager : MonoBehaviour
 
 		connectIslands();
 
-        for (int x = 0; x < map.Length; ++x)
-        {
-            for (int y = 0; y < map[x].Length; ++y)
-            {
-                if (isWall(x, y))
-                {
-                    if (isWall(x - 1, y - 1))
-                    {
-                        Vector3 newPos = map[x][y].instance.transform.position;
-                        newPos.z = map[x - 1][y - 1].instance.transform.position.z - 0.01f;
-                        map[x][y].instance.transform.position = newPos;
-                    }
-                }
-            }
-        }
+        placeBuildings();
 
-        // Update walls sprite
         for (int x = 0; x < map.Length; ++x)
         {
             for (int y = 0; y < map[x].Length; ++y)
             {
-                GameObject newTile = null;
-                if (isWall(x,y) && isWall(x-2,y-2))
-                {
-                    if (map[x][y].instance.transform.position.z > map[x - 1][y].instance.transform.position.z && map[x][y].instance.transform.position.z > map[x][y - 1].instance.transform.position.z)
-                    {
-                        if ((!isWall(x, y - 1) || map[x][y - 1].instance.name != walls[1].name + "(Clone)") && (!isWall(x, y + 1) || map[x][y].instance.transform.position.z < map[x][y + 1].instance.transform.position.z))
-                            newTile = walls[1];
-                        else if ((!isWall(x - 1, y) || map[x - 1][y].instance.name != walls[2].name + "(Clone)") && (!isWall(x + 1, y) || map[x][y].instance.transform.position.z < map[x + 1][y].instance.transform.position.z))
-                            newTile = walls[2];
-                    }
-                    if (newTile != null)
-                    {
-                        Destroy(map[x][y].instance);
-                        map[x][y].instance = Instantiate(newTile, map[x][y].instance.transform.position, Quaternion.identity) as GameObject;
-                    }
-                }
                 if (fogOfWar)
                 {
                     SpriteRenderer renderer = map[x][y].instance.GetComponent<SpriteRenderer>();
@@ -205,6 +210,129 @@ public class MapManager : MonoBehaviour
             }
         }
 	}
+
+    class buildingSpawn
+    {
+        public Cart diff;
+        public GameObject building;
+    }
+    void placeBuildings()
+    {
+        islands = new List<List<Cube>>();
+        visited = new bool[columnCount, rowCount];
+        islandCount = 0;
+        for (int x = 0; x < map.Length; ++x)
+        {
+            for (int y = 0; y < map[x].Length; ++y)
+            {
+                if (!visited[x, y] && map[x][y].instance.layer == LayerMask.NameToLayer("PlaceHolder"))
+                {
+                    visit(x, y, LayerMask.NameToLayer("PlaceHolder"));
+                    islandCount++;
+                }
+            }
+        }
+
+        for (int i = 0; i < islandCount; ++i)
+        {
+            bool spaceLeft = true;
+            while (spaceLeft)
+            {
+                List<buildingSpawn> possibleBuildings = new List<buildingSpawn>();
+                foreach (GameObject building in buildings)
+                {
+                    buildingSpawn bSpawn = tryToPlaceBuilding(building, islands[i]);
+                    if (bSpawn != null)
+                    {
+                        possibleBuildings.Add(bSpawn);
+                    }
+                }
+                if (possibleBuildings.Count > 0)
+                {
+                    System.Random rd = new System.Random();
+                    int index = rd.Next(0, possibleBuildings.Count);
+                    GameObject build = Instantiate<GameObject>(possibleBuildings[index].building);
+
+                    foreach (Transform child in build.transform)
+                    {
+                        Cart pos = Utils.toCartesian(child.position) - possibleBuildings[index].diff;
+                        if (child.gameObject.layer == LayerMask.NameToLayer("BlockingLayer"))
+                        {
+                            Destroy(map[pos.x][pos.y].instance);
+                            map[pos.x][pos.y].instance = child.gameObject;
+                            for (int x = pos.x -1; x <= pos.x + 1; ++x)
+                            {
+                                for (int y = pos.y - 1; y <= pos.y + 1; ++y)
+                                {
+                                    if (x < map.Length && x > 0 && y < map[0].Length && y > 0 && map[x][y].instance.layer == LayerMask.NameToLayer("PlaceHolder"))
+                                    {
+                                        Cube cube = map[x][y];
+                                        Destroy(cube.instance);
+                                        cube.instance = Instantiate(tilemaps[0].GetTile(UnityEngine.Random.Range(0f, 100f)), cube.cartPos.toIsometric(), Quaternion.identity) as GameObject;
+                                    }
+                                }
+                            }
+                        }
+                        child.position = pos.toIsometric();
+                    }
+                }
+                else
+                    spaceLeft = false;
+            }
+            foreach(Cube cube in islands[i])
+            {
+                if (cube.instance.layer == LayerMask.NameToLayer("PlaceHolder"))
+                {
+                    Destroy(cube.instance);
+                    cube.instance = Instantiate(tilemaps[0].GetTile(UnityEngine.Random.Range(0f, 100f)), cube.cartPos.toIsometric(), Quaternion.identity) as GameObject;
+                }
+            }
+        }
+    }
+
+    buildingSpawn tryToPlaceBuilding(GameObject building, List<Cube> area)
+    {
+        buildingSpawn spawn = null;
+        List<GameObject> walls = new List<GameObject>();
+        foreach (Transform child in building.transform)
+        {
+            if (child.gameObject.layer == LayerMask.NameToLayer("BlockingLayer"))
+                walls.Add(child.gameObject);
+        }
+        if (walls.Count == 0)
+            return null;
+
+        for (int i = 0; i < area.Count; ++i)
+        {
+            bool found = true;
+            Cart diff =  Utils.toCartesian(walls[0].transform.position) - area[i].cartPos;
+            foreach (GameObject wall in walls)
+            {
+                Cart pos = Utils.toCartesian(wall.transform.position) - diff;
+                bool inArea = false;
+                foreach (Cube cube in area)
+                {
+                    if (pos == cube.cartPos && cube.instance.layer == LayerMask.NameToLayer("PlaceHolder"))
+                    {
+                        inArea = true;
+                        break;
+                    }
+                }
+                if (!inArea)
+                {
+                    found = false;
+                    break;
+                }
+            }
+            if (found)
+            {
+                spawn = new buildingSpawn();
+                spawn.building = building;
+                spawn.diff = diff;
+            }
+        }
+        return spawn;
+    }
 
     enum Border { Undefined, Left, Right };
     public Cart spawnPlayer()
@@ -381,7 +509,7 @@ public class MapManager : MonoBehaviour
 			{
 				if (!visited[x, y] && map[x][y].instance.layer == LayerMask.NameToLayer("Floor"))
 				{
-					visit(x, y);
+					visit(x, y, LayerMask.NameToLayer("Floor"));
 					islandCount++;
 				}
 			}
@@ -392,7 +520,7 @@ public class MapManager : MonoBehaviour
 			if (islands[i].Count < (rowCount * columnCount) / 10)
 			{
 				for (int j = 0; j < islands[i].Count; ++j)
-					replaceTile(walls[0], islands[i][j].cartPos);
+					replaceTile(placeHolder, islands[i][j].cartPos);
 				floor -= (uint)islands[i].Count;
 				islands.RemoveAt(i--);
 				--islandCount;
@@ -400,21 +528,21 @@ public class MapManager : MonoBehaviour
 		}
 	}
 
-	private void visit(int x, int y)
+	private void visit(int x, int y, int layer)
 	{
 		if (x < 0 || x >= columnCount || y < 0 || y >= rowCount)
 			return;
 
 		if (islands.Count <= islandCount)
 			islands.Add(new List<Cube>());
-		if (visited[x, y] == false && map[x][y].instance.layer == LayerMask.NameToLayer("Floor"))
+		if (visited[x, y] == false && map[x][y].instance.layer == layer)
 		{
 			islands[islandCount].Add(map[x][y]);
 			visited[x, y] = true;
-			visit(x - 1, y);
-			visit(x, y - 1);
-			visit(x + 1, y);
-			visit(x, y + 1);
+			visit(x - 1, y, layer);
+			visit(x, y - 1, layer);
+			visit(x + 1, y, layer);
+			visit(x, y + 1, layer);
 		}
 	}
 
