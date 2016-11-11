@@ -480,19 +480,19 @@ public class MapManager : MonoBehaviour
 
 		// debug path finding
 
-		//if (Input.GetMouseButtonDown(0))
-		//{
-        //    Player player = GameManager.instance.player;
-		//	path = findPath(player.position, cartMouse);
-		//	if (path.Count > 0)
-		//	{
-		//		for (int i = 0; i < tileBackup.Count; ++i)
-		//			Destroy(tileBackup[i]);
-		//		tileBackup = new List<GameObject>();
-		//	}
-		//	for (int i = 0; i < path.Count; ++i)
-		//		tileBackup.Add(Instantiate(closest, path[i].toIsometric(), Quaternion.identity) as GameObject);
-		//}
+		if (Input.GetMouseButtonDown(0))
+		{
+            Player player = GameManager.instance.player;
+			path = findPath(player.position, cartMouse);
+			if (path.Count > 0)
+			{
+				for (int i = 0; i < tileBackup.Count; ++i)
+					Destroy(tileBackup[i]);
+				tileBackup = new List<GameObject>();
+			}
+			for (int i = 0; i < path.Count; ++i)
+				tileBackup.Add(Instantiate(closest, path[i].toIsometric(), Quaternion.identity) as GameObject);
+		}
 	}
 
 	private bool[,] visited;

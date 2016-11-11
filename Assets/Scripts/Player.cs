@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 public class Player : MovingUnit {
 
@@ -10,35 +11,44 @@ public class Player : MovingUnit {
         moveDone();
     }
 
+	public string   anim = null;
+
+	public void playAnim(string s)
+	{
+		anim = s;
+	}
+
     private Vector3 touchPosition;
     private bool isTouch;
-	public void mallowSeduction()
-	{
-		GameManager.instance.enemySkipMove();
-
-		animator.Play("mallowSeduction");
-		Debug.Log("Stop Enemies");
-	}
 
 	override protected void Update()
     {
-        Camera camera = Camera.main;
-
-        if (Input.GetMouseButtonDown(0))
+        if (!EventSystem.current.IsPointerOverGameObject())
         {
-            touchPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z);
-            isTouch = true;
-        }
-        else if (!Input.GetMouseButton(0) && isTouch)
-        {
-            if (Input.mousePosition == touchPosition)
+            GameManager.instance.mapManager.litMap(position);
+            if (Input.GetMouseButtonDown(0))
             {
-                Cart dest = Utils.toCartesian(camera.ScreenToWorldPoint(Input.mousePosition));
-                computePath(dest);
-                GameManager.instance.turnLeft = path.Count;
+                touchPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z);
+                isTouch = true;
             }
-            isTouch = false;
+            else if (!Input.GetMouseButton(0) && isTouch)
+            {
+                if (Input.mousePosition == touchPosition)
+                {
+                    Camera camera = Camera.main;
+
+                    Cart dest = Utils.toCartesian(camera.ScreenToWorldPoint(Input.mousePosition));
+                    computePath(dest);
+                    GameManager.instance.turnLeft = path.Count;
+                }
+                isTouch = false;
+            }
         }
+		else if (anim != null)
+		{
+			animator.Play(anim);
+			anim = null;
+		}
 
 		base.Update();
 	}
@@ -46,7 +56,7 @@ public class Player : MovingUnit {
     protected override void moveDone()
     {
         GameManager.instance.mapManager.litMap(position);
-        
+
         GameObject[] buildings = GameObject.FindGameObjectsWithTag("Building");
         foreach (GameObject building in buildings)
         {
