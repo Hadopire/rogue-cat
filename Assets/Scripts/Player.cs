@@ -57,8 +57,8 @@ public class Player : MovingUnit {
                 if (child.gameObject.layer != LayerMask.NameToLayer("BlockingLayer"))
                 {
                     active = child.gameObject.activeInHierarchy;
-                    if (Mathf.Abs(this.transform.position.x - child.position.x) <= Utils.tileSizeInUnits.x &&
-                        Mathf.Abs(this.transform.position.y - child.position.y) <= Utils.tileSizeInUnits.y)
+                    if (Mathf.Abs(this.transform.position.x - child.position.x) < Utils.tileSizeInUnits.x &&
+                        Mathf.Abs(this.transform.position.y - child.position.y) < Utils.tileSizeInUnits.y)
                     {
                         behind = true;
                         foreach (Transform c in building.transform)

@@ -44,10 +44,10 @@ public class ItemManager : MonoBehaviour {
 		if (itemList != null)
 		{
 			for (int i = 0; i < items.Count; ++i)
-			{
-				if (items[i].inPlayerInventory == false)
+            {
+                Destroy(items[i].gameObject);
+                if (items[i].inPlayerInventory == false)
 				{
-					Destroy(items[i].gameObject);
 					items.RemoveAt(i);
 				}
 			}
