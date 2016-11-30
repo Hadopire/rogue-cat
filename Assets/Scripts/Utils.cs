@@ -4,7 +4,7 @@ using System;
 
 public static class Utils
 {
-    public static Vector3 tileSizeInUnits = new Vector3(1.0f, 0.75f, 0.5f);
+    public static Vector3 tileSizeInUnits = new Vector3(1.0f, 0.57f, 0.5f);
     public static float minFloat = 0.05f;
 
     public static Vector3 toIsometric(Vector3 localPosition)

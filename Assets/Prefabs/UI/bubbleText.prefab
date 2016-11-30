@@ -40,7 +40,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6251522, g: 1, b: 0.029411793, a: 1}
+  m_Color: {r: 0.9918864, g: 1, b: 0.85294116, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -60,7 +60,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Bitch!
+  m_Text: Welcome to RogueCat
 --- !u!222 &222526271363247242
 CanvasRenderer:
   m_ObjectHideFlags: 1

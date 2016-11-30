@@ -61,11 +61,17 @@ public class UserInterface : MonoBehaviour {
 		}
 
 		// instantiate the bubble
-		bubble = Instantiate(bubblePrefab) as GameObject;
-		bubble.transform.SetParent(UICanvas.transform, false);
+		if (bubble == null) {
+			bubble = Instantiate (bubblePrefab) as GameObject;
+			bubble.transform.SetParent (UICanvas.transform, false);
+		}
 		// instantiate the text
-		bubbleText = Instantiate(bubbleTextPrefab) as GameObject;
-		bubbleText.transform.SetParent(bubble.transform, false);
+		if (bubbleText == null) {
+			bubbleText = Instantiate (bubbleTextPrefab) as GameObject;
+			bubbleText.transform.SetParent (bubble.transform, false);
+		} else {
+			setBubbleText ("Sarah : This is a new district, bring food and take care !");
+		}
 	}
 
 	public void setBubbleText(string s)

@@ -47,6 +47,9 @@ public class Player : MovingUnit {
 		else if (anim != null)
 		{
 			animator.Play(anim);
+			if (anim == "mallowSeduction") {
+				GameManager.instance.enemySkipMove ();
+			}
 			anim = null;
 		}
 

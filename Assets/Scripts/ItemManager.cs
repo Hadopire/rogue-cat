@@ -60,7 +60,7 @@ public class ItemManager : MonoBehaviour {
 		{
 			if (i.gameObject == item)
 			{
-				GameManager.instance.userInterface.setBubbleText("mmh " + item.name + "!");
+				GameManager.instance.userInterface.setBubbleText("You find " + item.name + ".");
 				i.inPlayerInventory = true;
 				Destroy(i.gameObject);
 				i.gameObject = null;

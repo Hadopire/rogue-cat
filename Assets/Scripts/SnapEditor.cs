@@ -7,7 +7,7 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class SnapEditor : MonoBehaviour
 {
-    public static Vector3 tileSizeInUnits = new Vector3(1.0f, 0.75f, 0.5f);
+    public static Vector3 tileSizeInUnits = new Vector3(1.0f, 0.57f, 0.5f);
     Vector3 Snap(Vector3 localPosition)
     {
         // Calculate ratios for simple grid snap
